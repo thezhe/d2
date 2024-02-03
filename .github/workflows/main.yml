@@ -1,0 +1,41 @@
+name: Main
+
+on:
+  push:
+    branches: ['master']
+    tags: ['*']
+  pull_request:
+    branches: ['master']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: CMake
+        run: cmake -P wrun.cmake https://raw.githubusercontent.com/thezhe/ci.cmake/v1.0.1/ci.cmake
+      - uses: actions/upload-artifact@v4.3.0
+        with:
+          name: ${{runner.os}}
+          path: build/package/*
+  release:
+    if: ${{github.ref_type == 'tag'}}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+        contents: write
+    env:
+      ARTIFACTS_DIR: build/artifacts
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: actions/download-artifact@v4.1.1
+        with:
+          path: ${{env.ARTIFACTS_DIR}}
+      - name: Release with Artifacts
+        run: gh release create ${{github.ref_name}} -n ${{github.ref_name}} ${{env.ARTIFACTS_DIR}}/**/*.zip
+        env:
+            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
