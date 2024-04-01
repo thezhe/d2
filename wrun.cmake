@@ -1,25 +1,16 @@
-#[[
-Run a url as a CMake script
+# https://github.com/thezhe/wrun.cmake/tree/v0.1.0
 
-    cmake -P <path-to-wrun.cmake> <url>
-
-Fatal if: <url> content fails
-Dependencies: curl
-]]
-
-# See `COMMAND_ERROR_IS_FATAL` in `execute_process`
+# Settings
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
-# Dependencies
-execute_process(COMMAND curl --version OUTPUT_QUIET COMMAND_ERROR_IS_FATAL ANY)
 # CLI
-math(EXPR argc_m_1 "${CMAKE_ARGC} - 1")
-set(wrun_url "${CMAKE_ARGV${argc_m_1}}")
+set(wrun_url "${CMAKE_ARGV3}")
+# Validate
 if(NOT wrun_url)
-    message(FATAL_ERROR "Usage: cmake -P <path-to-wrun.cmake> <url>")
+    message(FATAL_ERROR "ERROR: Invalid URL")
 endif()
-# Store <url> content in `curl_output`
+# Fetch
 execute_process(
     COMMAND curl -fsSL "${wrun_url}"
     OUTPUT_VARIABLE curl_output ECHO_ERROR_VARIABLE COMMAND_ERROR_IS_FATAL ANY)
-# Run `curl_output`
+# Run
 cmake_language(EVAL CODE "${curl_output}")
