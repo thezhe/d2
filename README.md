@@ -1,6 +1,6 @@
 # d2
 
-Library for performing auto-vectorized operations on pairs of doubles
+Library of auto-vectorized operations on pairs of doubles
 
 ## Features
 

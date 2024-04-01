@@ -2,8 +2,7 @@
 #include <ranges> // IWYU pragma: keep
 #include <thezhe/avec.hpp>
 // TODO "CXXFLAGS": "-fopt-info-missed=missed.txt"
-// TODO compiler explorer see dissassembly
-// TODO rename to D128
+// TODO compiler explorer see disassembly
 using Avec = thezhe::avec::Avec<>; // NOLINT
 void test_ctors() {}
 void test_assignment() {}
