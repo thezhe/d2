@@ -9,12 +9,12 @@ Library of auto-vectorized operations on pairs of doubles
 ## Usage
 
 ```CMake
-# CMakeLists.txt
+# CMake
 
 include(FetchContent)
 FetchContent_Declare(
     d2
-    GIT_REPOSITORY https://github.com/thezhe/avec.git
+    GIT_REPOSITORY https://github.com/thezhe/d2.git
     GIT_TAG <tag>
     GIT_SHALLOW TRUE
 )

@@ -4,4 +4,4 @@
 
 ### Added
 
-- `include/thezhe/avec.hpp`
+- `include/thezhe/d2.hpp`
