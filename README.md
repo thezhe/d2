@@ -1,25 +1,10 @@
 # d2
 
-Library of auto-vectorized operations on pairs of doubles
+Auto-vectorization-friendly `double` pair
 
-## Features
+## Components
 
-- `thezhe::d2` - CMake library target
-
-## Usage
-
-```CMake
-# CMake
-
-include(FetchContent)
-FetchContent_Declare(
-    d2
-    GIT_REPOSITORY https://github.com/thezhe/d2.git
-    GIT_TAG <tag>
-    GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(d2)
-```
+- `thezhe::d2` - library namespace and CMake target
 
 ## Versioning
 
