@@ -1,8 +1,6 @@
-// cppcheck-suppress-file[passedByValue,unusedFunction]
-// NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index,
-// google-explicit-constructor)
+// NOLINTBEGIN(google-explicit-constructor,hicpp-explicit-conversions)
 #pragma once
-#include "detail/D2.hpp"
+#include <array>
 #include <cmath>
 #include <type_traits>
 namespace thezhe::d2
@@ -12,38 +10,38 @@ namespace thezhe::d2
  * @pre See `thezhe::d2::pre`
  * @attention Pass by value
  */
-class D2 final : public detail::D2
+class D2 final
 {
+public:
+    using value_t = double;
+    static constexpr std::size_t size_v = 2;
     // Ctors
     D2() noexcept;
     D2(value_t t) noexcept;
     D2(std::initializer_list<value_t> data) noexcept;
     // Assignment
-    D2 operator+=(D2 other) noexcept;
-    D2 operator-=(D2 other) noexcept;
-    D2 operator*=(D2 other) noexcept;
-    D2 operator/=(D2 other) noexcept;
+    D2 operator+=(D2 b) noexcept;
+    D2 operator-=(D2 b) noexcept;
+    D2 operator*=(D2 b) noexcept;
+    D2 operator/=(D2 b) noexcept;
     /*!
      * @brief Default comparison operator. Does NOT account for floating-point
      * error.
      */
     friend bool operator==(D2 a, D2 b) noexcept = default;
-    /*!
-     * @brief TODO (vec versions)
-     * lerp
-     * fmod/ceil/floor/remainder
-     */
-    [[nodiscard]] D2 min(D2 other) const;
-    [[nodiscard]] D2 max(D2 other) const;
-    [[nodiscard]] D2 pow(D2 other) const;
+    // TODO (vec versions)
+    //  ceil/floor/remainder
+    [[nodiscard]] D2 min(D2 b) const noexcept;
+    [[nodiscard]] D2 max(D2 b) const noexcept;
+    [[nodiscard]] D2 pow(D2 b) const;
     [[nodiscard]] D2 sqrt() const;
     [[nodiscard]] D2 abs() const;
     [[nodiscard]] D2 tan() const;
     [[nodiscard]] D2 lerp(D2 b, D2 c) const noexcept;
     /*!
-     * @brief Pseudo code `a[i] < b[i] ? *this[i] : other[i]`
+     * @brief Pseudo code `c[i] < d[i] ? *this[i] : b[i]`
      */
-    [[nodiscard]] D2 iflt(D2 other, D2 a, D2 b) const noexcept;
+    [[nodiscard]] D2 iflt(D2 b, D2 c, D2 d) const noexcept;
     /*!
      * @brief Squared
      */
@@ -52,6 +50,19 @@ class D2 final : public detail::D2
      * @brief Cubed
      */
     [[nodiscard]] D2 cb() const noexcept;
+private:
+    template<typename IndexedOp>
+        requires std::is_invocable_r_v<value_t, IndexedOp, std::size_t>
+    static D2 indexedOp(IndexedOp op)
+    {
+        D2 retval{};
+        for (std::size_t i = 0; i < size_v; ++i)
+        {
+            retval.data[i] = op(i); // NOLINT
+        }
+        return retval;
+    }
+    alignas(sizeof(value_t) * size_v) std::array<value_t, size_v> data{};
 };
 [[nodiscard]] D2 operator+(D2 a, D2 b) noexcept;
 [[nodiscard]] D2 operator-(D2 a, D2 b) noexcept;
@@ -82,5 +93,4 @@ constexpr bool is_d2_v{ is_entirely_aligned_v<T> && is_128_bit_v<T>
                         && std::is_standard_layout_v<T> };
 static_assert(is_d2_v<::thezhe::d2::D2>);
 } // namespace thezhe::d2::pre
-// NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index,
-// google-explicit-constructor)
+// NOLINTEND(google-explicit-constructor,hicpp-explicit-conversions)

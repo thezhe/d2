@@ -1,43 +1,36 @@
 #include "thezhe/d2/D2.hpp"
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index,
+// cppcoreguidelines-pro-bounds-pointer-arithmetic)
 namespace thezhe::d2
 {
 D2::D2() noexcept = default;
 D2::D2(value_t t) noexcept
 {
-    for (std::size_t i = 0; i < size_v; ++i)
-    {
-        data[i] = t;
-    }
+    *this = indexedOp([t]([[maybe_unused]] std::size_t i) { return t; });
 }
 D2::D2(std::initializer_list<value_t> data) noexcept
 {
-    for (std::size_t i = 0; i < size_v; ++i)
-    {
-        this->data[i] = std::begin(data)[i];
-    }
+    *this = indexedOp([data]([[maybe_unused]] std::size_t i)
+                      { return std::begin(data)[i]; });
 }
-D2 D2::operator+=(D2 other) noexcept
+D2 D2::operator+=(D2 b) noexcept
 {
-    *this
-        = binaryOp(other, [](value_t a, value_t b) noexcept { return a + b; });
+    *this = indexedOp([this, b](size_t i) { return data[i] + b.data[i]; });
     return *this;
 }
-D2 D2::operator-=(D2 other) noexcept
+D2 D2::operator-=(D2 b) noexcept
 {
-    *this
-        = binaryOp(other, [](value_t a, value_t b) noexcept { return a - b; });
+    *this = indexedOp([this, b](size_t i) { return data[i] - b.data[i]; });
     return *this;
 }
-D2 D2::operator*=(D2 other) noexcept
+D2 D2::operator*=(D2 b) noexcept
 {
-    *this
-        = binaryOp(other, [](value_t t, value_t o) noexcept { return t * o; });
+    *this = indexedOp([this, b](size_t i) { return data[i] * b.data[i]; });
     return *this;
 }
-D2 D2::operator/=(D2 other) noexcept
+D2 D2::operator/=(D2 b) noexcept
 {
-    *this
-        = binaryOp(other, [](value_t t, value_t o) noexcept { return t / o; });
+    *this = indexedOp([this, b](size_t i) { return data[i] / b.data[i]; });
     return *this;
 }
 D2 D2::sq() const noexcept
@@ -52,42 +45,40 @@ D2 D2::cb() const noexcept
 }
 D2 D2::sqrt() const
 {
-    return unaryOp(*this, [](value_t _a) { return std::sqrt(_a); });
+    return indexedOp([this](std::size_t i) { return std::sqrt(data[i]); });
 }
 D2 D2::abs() const
 {
-    return unaryOp([](value_t t) { return std::abs(t); });
+    return indexedOp([this](std::size_t i) { return std::abs(data[i]); });
 }
 D2 D2::tan() const
 {
-    return unaryOp([](value_t t) { return std::tan(t); });
+    return indexedOp([this](std::size_t i) { return std::tan(data[i]); });
 }
-D2 D2::min(D2 other) const
+D2 D2::min(D2 b) const noexcept
 {
-    return binaryOp(other, [](value_t t, value_t o) { return std::min(t, o); });
+    return indexedOp([this, b](std::size_t i)
+                     { return std::min(data[i], b.data[i]); });
 }
-D2 D2::max(D2 other) const
+D2 D2::max(D2 b) const noexcept
 {
-    return binaryOp(other, [](value_t t, value_t o) { return std::max(t, o); });
+    return indexedOp([this, b](std::size_t i)
+                     { return std::max(data[i], b.data[i]); });
 }
-D2 D2::pow(D2 other) const
+D2 D2::pow(D2 b) const
 {
-    return binaryOp(b, [](value_t _a, value_t _b) { return std::pow(_a, _b); });
+    return indexedOp([this, b](std::size_t i)
+                     { return std::pow(data[i], b.data[i]); });
 }
 D2 D2::lerp(D2 b, D2 c) const noexcept
 {
-    return ternaryOp(b,
-                     c,
-                     [](value_t _a, value_t _b, value_t _c)
-                     { return std::lerp(_a, _b, _c); });
+    return indexedOp([this, b, c](std::size_t i)
+                     { return std::lerp(data[i], b.data[i], c.data[i]); });
 }
 D2 D2::iflt(D2 b, D2 c, D2 d) const noexcept
 {
-    return quaternaryOp(b,
-                        c,
-                        d,
-                        [](value_t _a, value_t _b, value_t _c, value_t _d)
-                        { return _a < _b ? _c : _b; });
+    return indexedOp([this, b, c, d](std::size_t i)
+                     { return c.data[i] < d.data[i] ? data[i] : b.data[i]; });
 }
 D2 operator+(D2 a, D2 b) noexcept
 {
@@ -110,3 +101,5 @@ D2 operator/(D2 a, D2 b) noexcept
     return a;
 }
 } // namespace thezhe::d2
+// NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index,
+// cppcoreguidelines-pro-bounds-pointer-arithmetic)
