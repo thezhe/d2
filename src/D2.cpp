@@ -109,7 +109,10 @@ D2 operator/(D2 a, D2 b) noexcept
     a /= b;
     return a;
 }
-bool operator==(D2 a, D2 b) noexcept = default;
+bool operator==(D2 a, D2 b) noexcept
+{
+    return a.data == b.data;
+}
 // Preconditions
 static_assert(sizeof(D2) == alignof(D2));
 static_assert(sizeof(D2) == sizeof(double) * 2);
