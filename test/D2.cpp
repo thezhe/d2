@@ -1,20 +1,18 @@
-#undef NDEBUG
-#include <thezhe/d2/D2.hpp>
+#ifdef NDEBUG
+    #undef NDEBUG // assert in Release
+#endif
+#include "thezhe/d2/D2.hpp"
+#include <cassert>
 using namespace thezhe::d2; // NOLINT
 void test_ctors()
 {
-    const D2 ctor{ 1.0, 1.0 };
-    const D2 copy_ctor{ ctor };
+    const D2 ctor_default{};
+    const D2 ctor1{ 1.0 };
+    const D2 ctor2{ 1.0, 1.0 };
+    const auto ctor_copy{ ctor2 };
 }
-void test_assignment() {}
-void test_arithmetic() {}
-void test_math() {}
-int main()
+void test_assignment()
 {
-    // test_ctors();
-    // test_assignment();
-    // test_arithmetic();
-    // test_math();
     // // Template specialization and object
     // constexpr D2 d2{ 1.0, 1.0 };
     // // Constructors
@@ -31,4 +29,13 @@ int main()
     // avec128d_copied = avec128d_copied * d2;
     // auto test = -avec128d_copied;
     // Intrinsic math functions
+}
+void test_arithmetic() {}
+void test_math() {}
+int main()
+{
+    test_ctors();
+    test_assignment();
+    test_arithmetic();
+    test_math();
 }
