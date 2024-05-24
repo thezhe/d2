@@ -1,18 +1,18 @@
 #include "thezhe/d2/D2.hpp"
 #include <cmath>
-#include <cstddef>
+#include <cstdint>
 #include <type_traits>
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index,
 // cppcoreguidelines-pro-bounds-pointer-arithmetic)
 namespace thezhe::d2
 {
 D2::D2() noexcept = default;
-D2::D2(value_t lr) noexcept
+D2::D2(double lr) noexcept
 {
     data[0] = lr;
     data[1] = lr;
 }
-D2::D2(value_t l, value_t r) noexcept
+D2::D2(double l, double r) noexcept
 {
     data[0] = l;
     data[1] = r;
@@ -50,7 +50,7 @@ D2 D2::cb() const noexcept
 D2 D2::utrunc() const noexcept
 {
     return indexedOp([this](auto i)
-                     { return static_cast<std::size_t>(data[i]); });
+                     { return static_cast<std::int_fast32_t>(data[i]); });
 }
 D2 D2::sqrt() const
 {

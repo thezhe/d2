@@ -10,10 +10,9 @@ namespace thezhe::d2
 class D2 final
 {
 public:
-    using value_t = double;
     D2() noexcept;
-    D2(value_t lr) noexcept;
-    D2(value_t l, value_t r) noexcept;
+    D2(double lr) noexcept;
+    D2(double l, double r) noexcept;
     D2 operator+=(D2 b) noexcept;
     D2 operator-=(D2 b) noexcept;
     D2 operator*=(D2 b) noexcept;
@@ -30,9 +29,9 @@ public:
     // TODO reductions
     // TODO might not need trunc (do with scalars)
     /*!
-     * @brief Truncate by casting to `std::size_t`
-     * @pre Values are between `std::numeric_limits<std::size_t>::min()` and
-     * `std::numeric_limits<std::size_t>::max()`
+     * @brief Truncate by casting to `std::int_fast32_t`
+     * @pre Values are between `std::numeric_limits<std::int_fast32_t>::min()`
+     * and `std::numeric_limits<std::int_fast32_t>::max()`
      */
     [[nodiscard]] D2 utrunc() const noexcept;
     [[nodiscard]] D2 sqrt() const;
@@ -47,19 +46,19 @@ public:
      */
     [[nodiscard]] D2 iflt(D2 b, D2 c, D2 d) const noexcept;
 private:
-    static constexpr std::size_t size_v = 2UL;
     template<typename IndexedOp>
-        requires std::is_invocable_r_v<value_t, IndexedOp, std::size_t>
+        requires std::is_invocable_r_v<double, IndexedOp, std::size_t>
     static D2 indexedOp(IndexedOp op)
     {
         D2 retval{};
-        for (std::size_t i = 0; i < size_v; ++i)
+        for (std::size_t i = 0; i < 2; ++i)
         {
             retval.data[i] = op(i); // NOLINT
         }
         return retval;
     }
-    alignas(sizeof(value_t) * size_v) std::array<value_t, size_v> data{};
+    using data_t = std::array<double, 2>;
+    alignas(sizeof(data_t)) data_t data{};
 };
 [[nodiscard]] D2 operator+(D2 a, D2 b) noexcept;
 [[nodiscard]] D2 operator-(D2 a, D2 b) noexcept;
