@@ -1,7 +1,7 @@
 #undef NDEBUG
-#include "thezhe/d2/D2.hpp"
+#include "thezhe/D2.hpp"
 #include <cassert>
-using namespace thezhe::d2; // NOLINT
+using namespace thezhe; // NOLINT
 void test_ctors()
 {
     const D2 ctor_default{};

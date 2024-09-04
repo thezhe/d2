@@ -4,7 +4,7 @@
 #include <type_traits>
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index,
 // cppcoreguidelines-pro-bounds-pointer-arithmetic)
-namespace thezhe::d2
+namespace thezhe
 {
 D2::D2() noexcept = default;
 D2::D2(double lr) noexcept
@@ -121,6 +121,6 @@ static_assert(std::is_standard_layout_v<D2>);
 static_assert(std::is_nothrow_copy_constructible_v<D2>
               && std::is_nothrow_copy_assignable_v<D2>
               && std::is_nothrow_destructible_v<D2>);
-} // namespace thezhe::d2
+} // namespace thezhe
 // NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index,
 // cppcoreguidelines-pro-bounds-pointer-arithmetic)

@@ -2,7 +2,7 @@
 #include <array>
 #include <cstddef>
 // NOLINTBEGIN(google-explicit-constructor,hicpp-explicit-conversions)
-namespace thezhe::d2
+namespace thezhe
 {
 /*!
  * @brief Auto-vectorization-friendly pass-by-value `double` pair
@@ -65,5 +65,5 @@ private:
 [[nodiscard]] D2 operator*(D2 a, D2 b) noexcept;
 [[nodiscard]] D2 operator/(D2 a, D2 b) noexcept;
 [[nodiscard]] bool operator==(D2 a, D2 b) noexcept;
-} // namespace thezhe::d2
+} // namespace thezhe
 // NOLINTEND(google-explicit-constructor,hicpp-explicit-conversions)
