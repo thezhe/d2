@@ -1,12 +1,12 @@
 # Dependencies
 include(FetchContent)
 FetchContent_Declare(
-    content_lock
-    GIT_REPOSITORY https://github.com/thezhe/content_lock.git
-    GIT_TAG 5ad74bf7e5360626d100e06eccfbcbbb06ab550d
+    osv_scanner_lock
+    GIT_REPOSITORY https://github.com/thezhe/osv_scanner_lock.git
+    GIT_TAG 1fc16ed031d6a407657baa2f5818393b27f2644b
     GIT_SHALLOW TRUE)
-FetchContent_MakeAvailable(content_lock)
-thezhe_content_lock()
+FetchContent_MakeAvailable(osv_scanner_lock)
+thezhe_osv_scanner_lock()
 # Project
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 # cmake-lint: disable=C0103

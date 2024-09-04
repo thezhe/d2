@@ -33,7 +33,7 @@ public:
      * @pre Values are between `std::numeric_limits<std::int_fast32_t>::min()`
      * and `std::numeric_limits<std::int_fast32_t>::max()`
      */
-    [[nodiscard]] D2 utrunc() const noexcept;
+    [[nodiscard]] D2 trunci() const noexcept;
     [[nodiscard]] D2 sqrt() const;
     [[nodiscard]] D2 abs() const;
     [[nodiscard]] D2 tan() const;

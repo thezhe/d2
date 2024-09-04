@@ -1,6 +1,4 @@
-#ifdef NDEBUG
-    #undef NDEBUG // assert in Release
-#endif
+#undef NDEBUG
 #include "thezhe/d2/D2.hpp"
 #include <cassert>
 using namespace thezhe::d2; // NOLINT

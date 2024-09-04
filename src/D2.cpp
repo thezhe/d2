@@ -47,7 +47,7 @@ D2 D2::cb() const noexcept
     D2 a{ *this };
     return a * a * a;
 }
-D2 D2::utrunc() const noexcept
+D2 D2::trunci() const noexcept
 {
     return indexedOp([this](auto i)
                      { return static_cast<std::int_fast32_t>(data[i]); });
