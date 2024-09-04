@@ -1,10 +1,10 @@
-# d2
+# D2
 
-Auto-vectorization-friendly `double` pair
+Auto-vectorization-friendly `double`-pair class
 
-## Components
+## Features
 
-- `thezhe::d2` - library namespace and CMake target
+- Class and CMake target `thezhe::D2`
 
 ## Versioning
 

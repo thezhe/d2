@@ -1,4 +1,4 @@
-#include "thezhe/d2/D2.hpp"
+#include "thezhe/D2.hpp"
 #include <cmath>
 #include <cstdint>
 #include <type_traits>
