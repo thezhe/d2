@@ -11,8 +11,8 @@ class D2 final
 {
 public:
     D2() noexcept;
-    D2(double lr) noexcept;
-    D2(double l, double r) noexcept;
+    explicit(false) D2(double lr) noexcept;
+    explicit(false) D2(double l, double r) noexcept;
     D2 operator+=(D2 b) noexcept;
     D2 operator-=(D2 b) noexcept;
     D2 operator*=(D2 b) noexcept;

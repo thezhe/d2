@@ -1,4 +1,6 @@
-#undef NDEBUG
+#ifdef NDEBUG
+    #undef NDEBUG
+#endif
 #include "thezhe/D2.hpp"
 #include <cassert>
 using namespace thezhe; // NOLINT
