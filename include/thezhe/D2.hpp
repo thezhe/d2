@@ -1,7 +1,6 @@
 #pragma once
 #include <array>
 #include <cstddef>
-// NOLINTBEGIN(google-explicit-constructor,hicpp-explicit-conversions)
 namespace thezhe
 {
 /*!
@@ -10,30 +9,45 @@ namespace thezhe
 class D2 final
 {
 public:
-    D2() noexcept;
+    using data_type = std::array<double, 2>;
+    using iterator = data_type::iterator;
+    explicit D2() noexcept;
     explicit(false) D2(double lr) noexcept;
     explicit(false) D2(double l, double r) noexcept;
+    [[nodiscard]] iterator begin();
+    [[nodiscard]] iterator end();
     D2 operator+=(D2 b) noexcept;
     D2 operator-=(D2 b) noexcept;
     D2 operator*=(D2 b) noexcept;
     D2 operator/=(D2 b) noexcept;
-    friend bool operator==(D2 a, D2 b) noexcept;
-    /*!
-     * @brief Squared
-     */
+    friend D2 operator+(D2 a, D2 b) noexcept
+    {
+        a += b;
+        return a;
+    }
+    friend D2 operator-(D2 a, D2 b) noexcept
+    {
+        a -= b;
+        return a;
+    }
+    friend D2 operator*(D2 a, D2 b) noexcept
+    {
+        a *= b;
+        return a;
+    }
+    friend D2 operator/(D2 a, D2 b) noexcept
+    {
+        a /= b;
+        return a;
+    }
     [[nodiscard]] D2 sq() const noexcept;
-    /*!
-     * @brief Cubed
-     */
     [[nodiscard]] D2 cb() const noexcept;
-    // TODO reductions
-    // TODO might not need trunc (do with scalars)
+    // // TODO reductions
+    // TODO negation, unary ops
     /*!
-     * @brief Truncate by casting to `std::int_fast32_t`
-     * @pre Values are between `std::numeric_limits<std::int_fast32_t>::min()`
-     * and `std::numeric_limits<std::int_fast32_t>::max()`
+     * @brief Equivalent to pseudo-code `a[i] * b[i] + c[i]`
      */
-    [[nodiscard]] D2 trunci() const noexcept;
+    [[nodiscard]] D2 fma(D2 b, D2 c) const;
     [[nodiscard]] D2 sqrt() const;
     [[nodiscard]] D2 abs() const;
     [[nodiscard]] D2 tan() const;
@@ -46,24 +60,17 @@ public:
      */
     [[nodiscard]] D2 iflt(D2 b, D2 c, D2 d) const noexcept;
 private:
-    template<typename IndexedOp>
-        requires std::is_invocable_r_v<double, IndexedOp, std::size_t>
-    static D2 indexedOp(IndexedOp op)
+    template<typename F>
+        requires std::is_invocable_r_v<D2, F, std::size_t, double>
+    [[nodiscard]] D2 transform(F f) const
     {
-        D2 retval{};
-        for (std::size_t i = 0; i < 2; ++i)
+        D2 retval;
+        for (std::size_t i = 0; i < data.size(); ++i)
         {
-            retval.data[i] = op(i); // NOLINT
+            retval.data[i] = f(i, data[i]);
         }
         return retval;
     }
-    using data_t = std::array<double, 2>;
-    alignas(sizeof(data_t)) data_t data{};
+    alignas(sizeof(data_type)) data_type data{};
 };
-[[nodiscard]] D2 operator+(D2 a, D2 b) noexcept;
-[[nodiscard]] D2 operator-(D2 a, D2 b) noexcept;
-[[nodiscard]] D2 operator*(D2 a, D2 b) noexcept;
-[[nodiscard]] D2 operator/(D2 a, D2 b) noexcept;
-[[nodiscard]] bool operator==(D2 a, D2 b) noexcept;
 } // namespace thezhe
-// NOLINTEND(google-explicit-constructor,hicpp-explicit-conversions)

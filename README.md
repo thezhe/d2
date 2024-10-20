@@ -4,7 +4,7 @@ Auto-vectorization-friendly `double`-pair class
 
 ## Features
 
-- Class and CMake target `thezhe::D2`
+- `thezhe::D2` - Class and CMake target
 
 ## Versioning
 
